@@ -1,5 +1,5 @@
-module.exports = function(application){
-	application.get('/', function(req, res){
+module.exports = (application) => {
+	application.get('/', (req, res) => {
 		res.send('Bem vindo a sua app NodeJS!');
 	});
 }
