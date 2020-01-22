@@ -15,5 +15,10 @@ module.exports.autenticar = (application, req, res) => {
         return;
     }
 
-    res.send('tudo certo para o inicio da sessão')
+    let connection = application.config.dbConnection;
+    let UsuariosDAO = new application.app.models.UsuariosDAO(connection);
+
+    UsuariosDAO.autenticar(dadosForm, req, res);
+
+    // res.send('tudo certo para o inicio da sessão')
 }
