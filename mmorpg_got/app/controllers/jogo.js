@@ -6,3 +6,13 @@ module.exports.jogo = (application, req, res) => {
     }
     // res.render('index', { validacao: {}});
 }
+
+module.exports.sair = (application, req, res) => {
+    req.session.destroy((err) => {
+        if(err) {
+            console.log(err)
+        } else {
+            res.render('index', { validacao: {} });
+        }
+    });
+}
