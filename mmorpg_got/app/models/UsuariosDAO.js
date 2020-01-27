@@ -29,7 +29,7 @@ UsuariosDAO.prototype.autenticar = function(usuario, req, res) {
             });
             mongocliente.close();
         });
-    })
+    });
 }
 
 module.exports = () => UsuariosDAO;

@@ -6,4 +6,17 @@ module.exports = (application) => {
 	application.get('/sair', (req, res) => {
 		application.app.controllers.jogo.sair(application, req, res);
 	});
+
+	// Rotas que vão aparecer no meio da tela
+	application.get('/suditos', (req, res) => {
+		application.app.controllers.jogo.suditos(application, req, res);
+	});
+
+	application.get('/pergaminhos', (req, res) => {
+		application.app.controllers.jogo.pergaminhos(application, req, res);
+	});
+
+	application.post('/ordenar_acao_sudito', (req, res) => {
+		application.app.controllers.jogo.ordenar_acao_sudito(application, req, res);
+	});
 }
