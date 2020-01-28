@@ -19,12 +19,50 @@ JogoDAO.prototype.gerarParametros = function(usuario) {
     })
 }
 
-JogoDAO.prototype.iniciaJogo = function(res, usuario, casa, comando_invalido) {
+JogoDAO.prototype.iniciaJogo = function(res, usuario, casa, msg) {
     this._connection.open(function(err, mongocliente) {
         mongocliente.collection("jogo", function(err, collection){
             collection.find({ usuario: usuario }).toArray((err, result) => {
                 // console.log(result[0]);
-                res.render('jogo', { img_casa : casa, jogo: result[0], comando_invalido: comando_invalido });
+                res.render('jogo', { img_casa : casa, jogo: result[0], msg: msg });
+                mongocliente.close();
+            });
+        });
+    })
+}
+
+JogoDAO.prototype.acao = function(acao) {
+    this._connection.open(function(err, mongocliente) {
+        mongocliente.collection("acao", function(err, collection){
+            let date = new Date();
+            let tempo = null;
+            switch(parseInt(acao.acao)) {
+                case 1: 
+                    tempo = 1 * 60 * 60000;
+                    break;
+                case 2: 
+                    tempo = 2 * 60 * 60000;
+                    break;
+                case 3: 
+                    tempo = 5 * 60 * 60000;
+                    break;
+                case 4: 
+                    tempo = 5 * 60 * 60000;
+                    break;
+            }
+
+            acao.acao_termina_em = date.getTime() + tempo;
+            collection.insert(acao);
+            mongocliente.close();
+        });
+    })
+}
+
+JogoDAO.prototype.getAcoes = function(usuario, res) {
+    this._connection.open(function(err, mongocliente) {
+        mongocliente.collection("acao", function(err, collection){
+            collection.find({ usuario: usuario }).toArray((err, result) => {
+                res.render("pergaminhos", { acoes: result });
                 mongocliente.close();
             });
         });

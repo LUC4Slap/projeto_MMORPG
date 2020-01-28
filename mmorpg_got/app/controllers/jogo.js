@@ -4,10 +4,10 @@ module.exports.jogo = (application, req, res) => {
     return;
   }
 
-  let comando_invalido = "N";
+  let msg = "";
 
-  if (req.query.comando_invalido == "S") {
-    comando_invalido = "S";
+  if (req.query.msg != "") {
+    msg = req.query.msg;
   }
 
   let usuario = req.session.usuario;
@@ -15,7 +15,7 @@ module.exports.jogo = (application, req, res) => {
   let connection = application.config.dbConnection;
   let JogoDAO = new application.app.models.JogoDAO(connection);
 
-  JogoDAO.iniciaJogo(res, usuario, casa, comando_invalido);
+  JogoDAO.iniciaJogo(res, usuario, casa, msg);
 };
 
 module.exports.sair = (application, req, res) => {
@@ -41,7 +41,11 @@ module.exports.pergaminhos = (application, req, res) => {
     res.render("fazerLogin");
     return;
   }
-  res.render("pergaminhos");
+
+  let connection = application.config.dbConnection;
+  let JogoDAO = new application.app.models.JogoDAO(connection);
+  let usuario = req.session.usuario;
+  JogoDAO.getAcoes(usuario, res);
 };
 
 module.exports.ordenar_acao_sudito = (application, req, res) => {
@@ -56,10 +60,15 @@ module.exports.ordenar_acao_sudito = (application, req, res) => {
   let erros = req.validationErrors();
 
   if (erros) {
-    res.redirect("jogo?comando_invalido=S");
+    res.redirect("jogo?msg=A");
     return;
   }
 
-  console.log(dadosForm);
-  res.send("Tudo ok");
+  let connection = application.config.dbConnection;
+  let JogoDAO = new application.app.models.JogoDAO(connection);
+
+  dadosForm.usuario = req.session.usuario
+  JogoDAO.acao(dadosForm);
+  
+  res.redirect("jogo?msg=B");
 };
