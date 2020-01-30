@@ -22,3 +22,7 @@ module.exports.autenticar = (application, req, res) => {
 
     // res.send('tudo certo para o inicio da sessão')
 }
+
+module.exports.cadastrar = (application, req, res) => {
+    res.render('cadastro', { dadosForm: {}, validacao: {} });
+}
