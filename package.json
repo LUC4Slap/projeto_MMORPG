@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "express-session": "1.14.1",
-    "mongodb": "2.2.2",
+    "mongodb": "3.1.13",
     "nodemon": "^2.0.2"
   }
 }
